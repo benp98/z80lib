@@ -29,3 +29,23 @@ hex_from_byte:
     LD H, A                 ; Store in H
 
     RET
+
+; Convert the hexadecimal Value in A into its binary value
+hex_to_nibble:
+    CP 0x41                 ; Compare value against 'A'
+    JP C, hex_to_nibble1    ; Jump if the value is less than 'A'
+
+    CP 0x61                 ; Compare value against 'a'
+    JP C, hex_to_nibble2    ; Jump if the value is less than 'a'
+
+    SUB 0x61-0xA            ; Subtract the value of 'a' minus ten from the data
+    AND 00001111b           ; Strip the upper four MSB
+    RET
+hex_to_nibble1:
+    SUB 0x30                ; Subtract the value of '0' from the data
+    AND 00001111b           ; Strip the upper four MSB
+    RET
+hex_to_nibble2:
+    SUB 0x41-0xA            ; Subtract the value of 'A' minus ten from the data
+    AND 00001111b           ; Strip the upper four MSB
+    RET
